@@ -12,6 +12,9 @@ public class MainFrame extends JFrame {
         init();
     }
 
+    /**
+     * se deseneaza panelurile necesare si sunt pozitionate.
+     */
     public void init() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         controlPanel = new ControlPanel(this);

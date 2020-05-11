@@ -20,6 +20,10 @@ public class ControlPanel extends JPanel {
     JTextField textField;
     JTextArea textArea;
 
+    /**
+     * initializam controlPanelul cu toti copii necesari functionarii
+     * @param frame => frame=ul tata
+     */
     public ControlPanel(MainFrame frame) {
         this.frame = frame;
         setPreferredSize(new Dimension(1000, 100));
@@ -38,6 +42,11 @@ public class ControlPanel extends JPanel {
         createComponent.addActionListener(this::actionPerformed);
     }
 
+    /**
+     * cream o componenta noua daca este posibil de fiecare data cand este apasat butonul
+     * crearea componentei se face dupa cum este explicat in README
+     * @param e => actiunea de apasare a butonului
+     */
     public void actionPerformed(ActionEvent e) {
         String classType = this.componentType.getText();
         String className = this.componentName.getText();
@@ -46,27 +55,41 @@ public class ControlPanel extends JPanel {
             Class clazz = Class.forName(classType);
             Component component = (Component) clazz.newInstance();
             component.setPreferredSize(new Dimension(100, 50));
-            if (component instanceof  JButton){
-                button=(JButton) component;
+            int componentHeight = this.frame.designPanel.getComponentList().size() / 10 * 50;
+            int componentWidth = this.frame.designPanel.getComponentList().size() % 10 * 100;
+            if (component instanceof JButton) {
+                button = (JButton) component;
                 button.setText(className);
+                this.frame.designPanel.getComponentList().add(button);
+                button.setBounds(10 + componentWidth, 10 + componentHeight, 80, 40);
                 this.frame.designPanel.add(button);
-            } else if (component instanceof  JLabel){
-                label=(JLabel) component;
+
+            } else if (component instanceof JLabel) {
+                label = (JLabel) component;
                 label.setText(className);
+                this.frame.designPanel.getComponentList().add(label);
+                label.setBounds(10 + componentWidth, 10 + componentHeight, 80, 40);
                 this.frame.designPanel.add(label);
-            } else if (component instanceof JTextField){
+            } else if (component instanceof JTextField) {
                 textField = (JTextField) component;
                 textField.setText(className);
+                this.frame.designPanel.getComponentList().add(textField);
+                textField.setBounds(10 + componentWidth, 10 + componentHeight, 80, 40);
                 this.frame.designPanel.add(textField);
-            }else if (component instanceof JTextArea){
+            } else if (component instanceof JTextArea) {
                 textArea = (JTextArea) component;
                 textArea.setText(className);
+                this.frame.designPanel.getComponentList().add(textArea);
+                textArea.setBounds(10 + componentWidth, 10 + componentHeight, 80, 40);
                 this.frame.designPanel.add(textArea);
-            }
-            else {
+            } else {
                 component.setName(className);
+                this.frame.designPanel.getComponentList().add(component);
+                component.setBounds(10 + componentWidth, 10 + componentHeight, 80, 40);
                 this.frame.designPanel.add(component);
             }
+            this.frame.designPanel.revalidate();
+            this.frame.designPanel.repaint();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             error.setText(String.valueOf(ex));
         }
